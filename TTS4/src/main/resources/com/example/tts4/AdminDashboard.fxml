@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tts4.AdminDashboardController">
+   <children>
+      <Label layoutX="22.0" layoutY="24.0" text="Welcome To Admin Dashboard">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="createSlot" layoutX="134.0" layoutY="158.0" mnemonicParsing="false" onAction="#handleCreateSlotButtonAction" prefHeight="25.0" prefWidth="128.0" text="Create Slot" />
+      <Button fx:id="createTimetableButton" layoutX="300.0" layoutY="158.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="144.0" text="Create Timetable" />
+   </children>
+</Pane>

@@ -1,16 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<VBox xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.example.tts4.AdminLoginController">
-    <Label text="Admin Login" />
-    <TextField fx:id="emailField" promptText="Email" />
-    <PasswordField fx:id="passwordField" promptText="Password" />
-    <Button text="Login" onAction="#loginButtonClicked" />
-</VBox>
 
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tts4.AdminLoginController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e1ff1f0a" height="200.0" layoutX="120.0" layoutY="100.0" stroke="#00000013" strokeType="INSIDE" width="394.0">
+         <effect>
+            <DropShadow />
+         </effect>
+      </Rectangle>
+      <Label layoutX="120.0" layoutY="51.0" prefHeight="38.0" prefWidth="169.0" text="Admin Login">
+         <font>
+            <Font size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="168.0" layoutY="150.0" text="Email">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailField" layoutX="226.0" layoutY="151.0" />
+      <Label layoutX="135.0" layoutY="200.0" text="Password">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="passwordField" layoutX="226.0" layoutY="201.0" />
+      <Button layoutX="252.0" layoutY="241.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="96.0" text="Login" onAction="#handleLogin">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tts4.CreateSlotController">
+   <children>
+      <Label layoutX="65.0" layoutY="40.0" text="Slot Creation">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+      <Label layoutX="103.0" layoutY="157.0" text="Type">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="354.0" layoutY="158.0" text="Interval">
+         <font>
+            <Font size="19.0" />
+         </font>
+      </Label>
+      <TextField fx:id="typeField" layoutX="103.0" layoutY="200.0" />
+      <TextField fx:id="intervalField" layoutX="354.0" layoutY="200.0" />
+      <Button layoutX="203.0" layoutY="290.0" mnemonicParsing="false" onAction="#createSlotHandler" prefHeight="25.0" prefWidth="246.0" text="Create Slot" />
+   </children>
+</Pane>

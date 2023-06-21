@@ -2,9 +2,12 @@ package com.example.tts4;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -12,62 +15,89 @@ import java.io.IOException;
 public class TTSApplication extends Application {
 
     private Stage primaryStage;
-    private BorderPane rootLayout;
+    private AnchorPane rootLayout;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         this.primaryStage = primaryStage;
-        initRootLayout();
         showLoginOptions();
     }
 
-    private void initRootLayout() {
-        rootLayout = new BorderPane();
+    private void showLoginOptions() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/tts4/hello.fxml"));
+        rootLayout = fxmlLoader.load();
+
         Scene scene = new Scene(rootLayout);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Time Table Tracking System");
         primaryStage.show();
+
+        Button adminButton = (Button) rootLayout.lookup("#adminButton");
+        Button facultyButton = (Button) rootLayout.lookup("#facultyButton");
+        Button studentButton = (Button) rootLayout.lookup("#studentButton");
+
+        adminButton.setOnAction(event -> {
+            showAdminLogin();
+        });
+
+        facultyButton.setOnAction(event -> {
+            try {
+                showFacultyLogin();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+        studentButton.setOnAction(event -> {
+            showStudentLogin();
+        });
     }
 
-    private void showLoginOptions() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/tts4/LoginOptions.fxml"));
-        Pane loginOptionsPane = fxmlLoader.load();
+    public void showAdminLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/tts4/AdminLogin.fxml"));
+            Parent adminLogin = loader.load();
 
-        LoginOptionsController controller = fxmlLoader.getController();
-        controller.setApplication(this);
 
-        rootLayout.setCenter(loginOptionsPane);
+            AdminLoginController adminLoginController = loader.getController();
+
+
+            adminLoginController.setTTSApplication(this);
+
+            Scene scene = new Scene(adminLogin);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void showAdminLogin() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/tts4/AdminLogin.fxml"));
-        Pane adminLoginPane = fxmlLoader.load();
+    public void showStudentLogin() {
+        try {
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(TTSApplication.class.getResource("studentLogin.fxml"));
+            Pane studentLogin = loader.load();
 
-        AdminLoginController controller = fxmlLoader.getController();
-        controller.setApplication(this);
 
-        rootLayout.setCenter(adminLoginPane);
-    }
+            StudentLoginController controller = loader.getController();
+            controller.setTTSApplication(this);
+            controller.populateChoiceBoxes();
 
-    public void showStudentLogin() throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/tts4/StudentLogin.fxml"));
-        Pane studentLoginPane = fxmlLoader.load();
-
-        StudentLoginController controller = fxmlLoader.getController();
-        controller.setApplication(this);
-
-        rootLayout.setCenter(studentLoginPane);
+            Scene scene = new Scene(studentLogin);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void showFacultyLogin() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/tts4/FacultyLogin.fxml"));
-        Pane facultyLoginPane = fxmlLoader.load();
-
-        FacultyLoginController controller = fxmlLoader.getController();
-        controller.setApplication(this);
-
-        rootLayout.setCenter(facultyLoginPane);
+        VBox facultyLoginPane = fxmlLoader.load();
+        rootLayout.getChildren().setAll(facultyLoginPane);
     }
 
-    // Other methods and main() as before
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

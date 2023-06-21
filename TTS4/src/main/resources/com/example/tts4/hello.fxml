@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tts4.HelloController">
-    <children>
-        <Label fx:id="helloLabel" layoutX="264.0" layoutY="187.0" text="Hello" />
-    </children>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.tts4.TTSApplication">
+   <children>
+      <Label layoutX="44.0" layoutY="32.0" text="TIME TABLE TRACKING SYSTEM">
+         <font>
+            <Font size="19.0" />
+         </font></Label>
+      <Button id="adminButton" layoutX="195.0" layoutY="115.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Admin Login" />
+      <Button id="facultyButton" layoutX="195.0" layoutY="166.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Faculty Login" />
+      <Button id="studentButton" layoutX="199.0" layoutY="224.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="202.0" text="Student Login" />
+   </children>
 </AnchorPane>

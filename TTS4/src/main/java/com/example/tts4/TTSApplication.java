@@ -81,7 +81,7 @@ public class TTSApplication extends Application {
 
             StudentLoginController controller = loader.getController();
             controller.setTTSApplication(this);
-            controller.populateChoiceBoxes();
+
 
             Scene scene = new Scene(studentLogin);
             primaryStage.setScene(scene);

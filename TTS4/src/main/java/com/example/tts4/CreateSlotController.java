@@ -38,6 +38,7 @@ public class CreateSlotController {
             statement.setString(2, interval);
             statement.executeUpdate();
             statement.close();
+            System.out.println("Slot created Successfully");
         } catch (SQLException e) {
             e.printStackTrace();
         }

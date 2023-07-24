@@ -1,81 +1,88 @@
 package com.example.tts4;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.regex.Pattern;
 
 public class StudentLoginController {
     @FXML
-    private ChoiceBox<String> yearChoiceBox;
-
-
-
-    @FXML
-    private ChoiceBox<String> departmentChoiceBox;
+    private TextField emailTextField;
 
     @FXML
     private PasswordField passwordField;
-
-    @FXML
-    private TextField regNoTextField;
-
-
 
     private TTSApplication ttsApplication;
 
     @FXML
     public void handleLogin() {
-        String selectedYear = yearChoiceBox.getValue();
-        String selectedDepartment = departmentChoiceBox.getValue();
+        String enteredEmail = emailTextField.getText();
         String enteredPassword = passwordField.getText();
-        int enteredRegNo = Integer.parseInt(regNoTextField.getText());
 
-
-
-        if (validateStudentLogin(selectedYear, selectedDepartment, enteredPassword, enteredRegNo)) {
+        if (validateEmail(enteredEmail) && validateStudentLogin(enteredEmail, enteredPassword)) {
             navigateToDashboard();
-
             System.out.println("Login successful. Navigating to StudentDashboard...");
         } else {
-
             System.out.println("Invalid login credentials. Please try again.");
         }
     }
+
     private void navigateToDashboard() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("StudentDashboard.fxml"));
             Parent root = loader.load();
 
-
             StudentDashboardController dashboardController = loader.getController();
-
+            String studentName = getStudentNameFromDatabase(emailTextField.getText());
+            dashboardController.setStudentName(studentName);
 
             Scene scene = new Scene(root);
-            Stage stage = (Stage) yearChoiceBox.getScene().getWindow();
+            Stage stage = (Stage) emailTextField.getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-    private boolean validateStudentLogin(String year, String department, String password, int regNo) {
+
+    private String getStudentNameFromDatabase(String email) {
         try (Connection conn = Database.getConnection()) {
-            String query = "SELECT * FROM student WHERE start = ? AND department = ? AND password = ? AND reg_no = ?";
+            String query = "SELECT name FROM student WHERE email = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setString(1, year);
-            stmt.setString(2, department);
-            stmt.setString(3, password);
-            stmt.setInt(4, regNo);
+            stmt.setString(1, email);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("name");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    private boolean validateEmail(String email) {
+        String emailPattern = "^[A-Za-z0-9+_.-]+@gmail.com$";
+        return Pattern.matches(emailPattern, email);
+    }
+
+    private boolean validateStudentLogin(String email, String password) {
+        try (Connection conn = Database.getConnection()) {
+            String query = "SELECT * FROM student WHERE email = ? AND password = ?";
+            PreparedStatement stmt = conn.prepareStatement(query);
+            stmt.setString(1, email);
+            stmt.setString(2, password);
             ResultSet rs = stmt.executeQuery();
 
             return rs.next();
@@ -85,61 +92,8 @@ public class StudentLoginController {
         }
     }
 
-
-
-
-
-public void setTTSApplication(TTSApplication ttsApplication) {
+    public void setTTSApplication(TTSApplication ttsApplication) {
         this.ttsApplication = ttsApplication;
     }
-
-    public void populateChoiceBoxes() {
-        // Retrieve years and departments from the database
-        ObservableList<String> years = retrieveYears();
-        ObservableList<String> departments = retrieveDepartments();
-
-        // Populate the ChoiceBoxes with the retrieved data
-        yearChoiceBox.setItems(years);
-        departmentChoiceBox.setItems(departments);
-    }
-
-    private ObservableList<String> retrieveYears() {
-        ObservableList<String> years = FXCollections.observableArrayList();
-
-        try (Connection conn = Database.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT DISTINCT year_code FROM years")) {
-
-            while (rs.next()) {
-                String year = rs.getString("year_code");
-                years.add(year);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return years;
-    }
-
-    private ObservableList<String> retrieveDepartments() {
-        ObservableList<String> departments = FXCollections.observableArrayList();
-
-        try (Connection conn = Database.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT DISTINCT department FROM student")) {
-
-            while (rs.next()) {
-                String department = rs.getString("department");
-                departments.add(department);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return departments;
-    }
 }
-
 

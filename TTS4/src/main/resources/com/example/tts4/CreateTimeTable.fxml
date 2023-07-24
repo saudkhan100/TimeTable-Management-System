@@ -47,6 +47,6 @@
       <ChoiceBox fx:id="sectionChoiceBox" layoutX="814.0" layoutY="93.0" prefWidth="150.0" />
       <Label layoutX="814.0" layoutY="68.0" text="Section" />
       <ChoiceBox fx:id="slotChoiceBox" layoutX="550.0" layoutY="93.0" prefWidth="150.0" />
-      <Button layoutX="827.0" layoutY="163.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Save TimeTable" />
+      <Button layoutX="827.0" layoutY="163.0" mnemonicParsing="false"  prefHeight="25.0" prefWidth="164.0" text="Save TimeTable" onAction="#handleSaveButtonAction"/>
     </children>
 </Pane>

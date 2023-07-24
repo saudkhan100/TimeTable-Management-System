@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import common.dto.CredentialDTO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.TimetableModel;
+import model.UsersController;
 
 public class AdminLoginController {
     @FXML
@@ -23,6 +26,8 @@ public class AdminLoginController {
 
     private TTSApplication ttsApplication;
 
+
+
     public void setTTSApplication(TTSApplication ttsApplication) {
         this.ttsApplication = ttsApplication;
     }
@@ -31,6 +36,9 @@ public class AdminLoginController {
     public void handleLogin() {
         String email = emailField.getText();
         String password = passwordField.getText();
+
+        UsersController objController = new UsersController();
+        var results = objController.validateAdminLogin(new CredentialDTO(email,password));
 
         if (validateAdminLogin(email, password)) {
             navigateToAdminDashboard();
@@ -57,6 +65,8 @@ public class AdminLoginController {
     }
 
     private boolean validateAdminLogin(String email, String password) {
+
+
         try (Connection conn = Database.getConnection()) {
             String query = "SELECT * FROM admin WHERE email = ? AND password = ?";
             PreparedStatement stmt = conn.prepareStatement(query);
